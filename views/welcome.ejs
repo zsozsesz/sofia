@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include templates/header.ejs%>
+<body>
+    <div ng-app="myApp" class="w3-container">
+
+        <div ng-controller="myCTRL2" class="w3-container" id="5">
+           <div class="w3-container w3-blue w3-margin w3-left" id="6"></div>
+            <div id="4" class="w3-right"></div>
+            <input type="text" ng-model="uzenet" class="w3-input" ng-keypress="myFunct($event)">
+            <button  ng-click="kuld()" class="w3-button w3-blue">Küldes</button>
+            <div id="2" class="w3-container"></div>
+
+        </div>
+    </div>
+    <script>
+
+        var socket  = io.connect('http://localhost:3000');
+
+        socket.on('message',function (msg){
+            var d1 = document.getElementById('2');
+            d1.insertAdjacentHTML('afterend', '<span>'+msg.user+' :'+msg.msg+'</span></br>');
+        });
+
+
+        socket.on('wisp',function (msg){
+            var d1 = document.getElementById('2');
+            d1.insertAdjacentHTML('afterend', '<span style="color:#210000">'+msg.user+' :'+msg.msg+'</span></br>');
+        });
+
+        socket.on('online',function(msg){
+            var d1 = document.getElementById('4');
+            d1.innerHTML='aktiv felhasznalok :'+ msg;
+        });
+
+        socket.on('name',function(msg){
+            var d1 = document.getElementById('6');
+            d1.innerHTML='user '+msg;
+        });
+
+        var app=angular.module('myApp',[]);
+        app.controller('myCTRL2',function($scope){
+
+                $scope.kuld = function(){
+                socket.emit('uzenet',$scope.uzenet);
+                $scope.uzenet="";
+            }
+            $scope.myFunct = function(keyEvent) {
+                if (keyEvent.which === 13)
+                {
+                    socket.emit('uzenet',$scope.uzenet);
+                    $scope.uzenet="";
+                }
+            }
+
+
+
+        });
+
+    </script>
+</body>
+</html>

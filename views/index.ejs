@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+    <% include templates/header.ejs%>
+<body>
+        <%=message%>
+        <div class="w3-container">Elérhető szobák: <%=rooms%></div>
+        <div class="w3-container w3-border w3-margin">
+        <div class="w3-container w3-left">
+            <label>Bejelentkezes</label></br></br>
+                <form method="post" action="/reg">
+                <label>Adja meg a nevét</label>
+                    <input type="text" class="w3-input" name="username">
+                 <label>Adja meg a szobát</label>
+                    <input type="text" class="w3-input" name="szoba">
+                    <button type="submit" class="w3-button w3-blue w3-margin">küldés</button>
+                </form>
+        </div>
+    </div>
+</body>
+</html>
